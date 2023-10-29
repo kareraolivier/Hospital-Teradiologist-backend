@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, NotAcceptableException } from "@nestjs/common";
 import { Model } from "mongoose";
 import { User } from "./interface/user.interface";
 import { InjectModel } from "@nestjs/mongoose";
@@ -11,6 +11,11 @@ export class UsersService {
     return await this.userModel.find();
   }
   async registerUser(user: User): Promise<User> {
+    const { email } = user;
+    const userEmail = await this.userModel.findOne({ email });
+    if (userEmail) {
+      throw new NotAcceptableException("User exist");
+    }
     user.password = await bcrypt.hash(user.password, 10);
     const newUser = new this.userModel(user);
     await newUser.save();
