@@ -1,5 +1,6 @@
 import * as mongoose from "mongoose";
-export const UserSchema = new mongoose.Schema(
+
+export const RadiologySchema = new mongoose.Schema(
   {
     firstName: {
       type: String,
@@ -14,15 +15,22 @@ export const UserSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
-    password: {
+    userId: {
       type: String,
       required: true,
-      unique: true,
     },
-    role: {
+    image: {
       type: String,
-      required: true,
+      required: false,
+    },
+    desc: {
+      type: String,
+      required: false,
+    },
+    comment: {
+      type: String,
+      required: false,
     },
   },
-  { timestamps: true },
+  { timestamps: false },
 );
