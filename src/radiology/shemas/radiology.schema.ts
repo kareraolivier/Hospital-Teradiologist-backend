@@ -2,6 +2,10 @@ import * as mongoose from "mongoose";
 
 export const RadiologySchema = new mongoose.Schema(
   {
+    patientId: {
+      type: String,
+      required: true,
+    },
     firstName: {
       type: String,
       required: true,

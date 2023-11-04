@@ -1,4 +1,8 @@
-import { Injectable, NotAcceptableException } from "@nestjs/common";
+import {
+  Injectable,
+  NotAcceptableException,
+  NotFoundException,
+} from "@nestjs/common";
 import { Model } from "mongoose";
 import { User } from "./interface/user.interface";
 import { InjectModel } from "@nestjs/mongoose";
@@ -8,7 +12,7 @@ export class UsersService {
   constructor(@InjectModel("User") private readonly userModel: Model<User>) {}
 
   async findAll(): Promise<User[]> {
-    return await this.userModel.find();
+    return await this.userModel.find({}, { password: 0 }).exec();
   }
   async registerUser(user: User): Promise<User> {
     const { email } = user;
@@ -25,7 +29,9 @@ export class UsersService {
     return await this.userModel.findOne({ email });
   }
   async findOne(id: string): Promise<User> {
-    return await this.userModel.findOne({ _id: id });
+    const user = await this.userModel.findOne({ _id: id });
+    if (!user) throw new NotFoundException("user not found");
+    return user;
   }
   async delete(id: string): Promise<User> {
     return await this.userModel.findByIdAndRemove({ _id: id });

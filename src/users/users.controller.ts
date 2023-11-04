@@ -10,6 +10,7 @@ import {
 import { User } from "./interface/user.interface";
 import { UsersService } from "./users.service";
 import { userDto } from "./dto/user.dto";
+import { Public } from "src/auth/auth.ispublic";
 @Controller("users")
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
@@ -18,7 +19,7 @@ export class UsersController {
   findAll(): Promise<User[]> {
     return this.usersService.findAll();
   }
-
+  @Public()
   @Post()
   registerUser(@Body() userDto: userDto): Promise<User> {
     return this.usersService.registerUser(userDto);
