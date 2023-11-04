@@ -21,10 +21,12 @@ export class AuthService {
       token: await this.jwtService.signAsync({
         name: loginUser.firstName,
         email: loginUser.email,
+        role: loginUser.role,
       }),
       user: {
         email: loginUser.email,
         names: `${loginUser.firstName} ${loginUser.lastName}`,
+        role: loginUser.role,
       },
     };
     return loginUser && validPassword ? user : null;
