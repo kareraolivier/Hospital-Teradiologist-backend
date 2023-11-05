@@ -1,4 +1,5 @@
 import * as mongoose from "mongoose";
+import { Role } from "src/auth/enums/role.enum";
 export const UserSchema = new mongoose.Schema(
   {
     firstName: {
@@ -21,6 +22,7 @@ export const UserSchema = new mongoose.Schema(
     },
     role: {
       type: String,
+      enum: Role,
       required: true,
     },
   },
