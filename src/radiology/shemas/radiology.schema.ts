@@ -14,9 +14,13 @@ export const RadiologySchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    age: {
+      type: Number,
+      required: false,
+    },
     email: {
       type: String,
-      required: true,
+      required: false,
       unique: true,
     },
     userId: {

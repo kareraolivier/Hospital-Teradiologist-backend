@@ -21,7 +21,8 @@ export class UsersService {
       throw new NotAcceptableException("User exist");
     }
     user.password = await bcrypt.hash(user.password, 10);
-    const newUser = new this.userModel(user);
+    const role = user.role ? [user.role, "admin"] : ["admin"];
+    const newUser = new this.userModel({ ...user, role });
     await newUser.save();
     return newUser;
   }

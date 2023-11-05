@@ -21,7 +21,7 @@ export const UserSchema = new mongoose.Schema(
       unique: true,
     },
     role: {
-      type: String,
+      type: [String],
       enum: Role,
       required: true,
     },

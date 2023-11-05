@@ -17,12 +17,11 @@ import { Role } from "src/auth/enums/role.enum";
 export class RadiologyController {
   constructor(private readonly radiologyService: RadiologyService) {}
   @Get()
-  @Roles(Role.Radiologist)
-  @Roles(Role.Admin)
   findAll(): Promise<Radiology[]> {
     return this.radiologyService.findAll();
   }
   @Post()
+  @Roles(Role.Radiologist, Role.Admin)
   create(@Body() radiologyDto: radiologyDto): Promise<Radiology> {
     return this.radiologyService.create(radiologyDto);
   }
