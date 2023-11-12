@@ -6,7 +6,6 @@ export class radiologyDto {
   readonly firstName: string;
   @IsString()
   readonly lastName: string;
-  // @IsString()
   readonly age: string;
   @IsString()
   @IsEmail()
@@ -18,6 +17,5 @@ export class radiologyDto {
   readonly image: string;
   @IsString()
   readonly desc: string;
-  @IsString()
   readonly comment: string;
 }
