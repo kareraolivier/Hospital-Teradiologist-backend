@@ -26,8 +26,8 @@ export class UsersController {
   }
 
   @Get(":id")
-  findOne(@Param("id") id): Promise<User> {
-    return this.usersService.findOne(id);
+  getUserById(@Param("id") id): Promise<User> {
+    return this.usersService.getUserById(id);
   }
 
   @Delete(":id")

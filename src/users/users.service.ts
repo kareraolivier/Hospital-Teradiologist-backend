@@ -1,5 +1,6 @@
 import {
   Injectable,
+  InternalServerErrorException,
   NotAcceptableException,
   NotFoundException,
 } from "@nestjs/common";
@@ -21,21 +22,27 @@ export class UsersService {
       throw new NotAcceptableException("User exist");
     }
     user.password = await bcrypt.hash(user.password, 10);
-    const role = user.role ? [user.role, "admin"] : ["admin"];
-    const newUser = new this.userModel({ ...user, role });
+    const newUser = new this.userModel(user);
     await newUser.save();
     return newUser;
   }
   async getUserByEmail(email: string): Promise<User> {
     return await this.userModel.findOne({ email });
   }
-  async findOne(id: string): Promise<User> {
-    const user = await this.userModel.findOne({ _id: id });
-    if (!user) throw new NotFoundException("user not found");
-    return user;
+
+  async getUserById(id: string): Promise<User> {
+    try {
+      return await this.userModel.findOne({ _id: id });
+    } catch (error) {
+      throw new InternalServerErrorException(
+        "An error occurred the user does not exist",
+      );
+    }
   }
   async delete(id: string): Promise<User> {
-    return await this.userModel.findByIdAndRemove({ _id: id });
+    const userId = await this.userModel.findByIdAndRemove({ _id: id });
+    if (!userId) throw new NotFoundException("user not found");
+    return userId;
   }
   async update(id: string, user: User): Promise<User> {
     return await this.userModel.findByIdAndUpdate(id, user, { new: true });

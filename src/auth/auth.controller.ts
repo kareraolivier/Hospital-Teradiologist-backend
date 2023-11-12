@@ -8,6 +8,7 @@ import {
 } from "@nestjs/common";
 import { AuthService } from "./auth.service";
 import { userDto } from "src/users/dto/user.dto";
+import { loginDto } from "./dto/login.dto";
 import { Public } from "./auth.ispublic";
 @Controller("auth")
 export class AuthController {
@@ -15,7 +16,7 @@ export class AuthController {
   @Public()
   @HttpCode(HttpStatus.OK)
   @Post("login")
-  signIn(@Body() login: userDto): Promise<any> {
+  signIn(@Body() login: loginDto): Promise<any> {
     return this.authService.signIn(login);
   }
 }

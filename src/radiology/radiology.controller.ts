@@ -6,6 +6,7 @@ import {
   Delete,
   Patch,
   Param,
+  Req,
 } from "@nestjs/common";
 import { Radiology } from "./interface/radiology.interface";
 import { RadiologyService } from "./radiology.service";
@@ -22,7 +23,10 @@ export class RadiologyController {
   }
   @Post()
   @Roles(Role.Radiologist, Role.Admin)
-  create(@Body() radiologyDto: radiologyDto): Promise<Radiology> {
+  create(
+    @Body() radiologyDto: radiologyDto,
+    @Req() req: any,
+  ): Promise<Radiology> {
     return this.radiologyService.create(radiologyDto);
   }
 

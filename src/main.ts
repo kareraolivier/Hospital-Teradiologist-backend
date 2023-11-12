@@ -5,7 +5,7 @@ import "dotenv";
 import { ValidationPipe } from "@nestjs/common";
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, { cors: true });
   app.use(
     session({
       secret: "keyboard",
@@ -14,6 +14,7 @@ async function bootstrap() {
     }),
   );
   app.useGlobalPipes(new ValidationPipe());
+  app.enableCors();
   await app.listen(3000);
   console.log(`localhost${3000}`);
 }

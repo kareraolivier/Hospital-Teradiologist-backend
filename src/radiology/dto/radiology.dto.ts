@@ -6,8 +6,8 @@ export class radiologyDto {
   readonly firstName: string;
   @IsString()
   readonly lastName: string;
-  @IsInt()
-  readonly age: number;
+  // @IsString()
+  readonly age: string;
   @IsString()
   @IsEmail()
   @IsLowercase()

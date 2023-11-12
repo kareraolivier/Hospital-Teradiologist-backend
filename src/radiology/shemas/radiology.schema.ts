@@ -15,7 +15,7 @@ export const RadiologySchema = new mongoose.Schema(
       required: true,
     },
     age: {
-      type: Number,
+      type: String,
       required: false,
     },
     email: {
@@ -24,7 +24,8 @@ export const RadiologySchema = new mongoose.Schema(
       unique: true,
     },
     userId: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
       required: true,
     },
     image: {
@@ -40,5 +41,5 @@ export const RadiologySchema = new mongoose.Schema(
       required: false,
     },
   },
-  { timestamps: false },
+  { timestamps: true },
 );

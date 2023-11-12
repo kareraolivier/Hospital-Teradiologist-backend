@@ -1,6 +1,7 @@
 import { Role } from "src/auth/enums/role.enum";
 import {
   IsEmail,
+  IsEnum,
   IsLowercase,
   IsString,
   Matches,
@@ -24,5 +25,8 @@ export class userDto {
   })
   readonly password: string;
   @IsString()
+  @IsEnum(Role, {
+    message: "Invalid role value. Please select a valid role.",
+  })
   readonly role: Role;
 }
