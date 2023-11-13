@@ -1,10 +1,18 @@
 import * as mongoose from "mongoose";
+import { Status } from "src/auth/enums/enum";
 
 export const RadiologySchema = new mongoose.Schema(
   {
     patientId: {
       type: String,
       required: true,
+    },
+
+    status: {
+      type: String,
+      enum: Status,
+      required: false,
+      default: Status.Pending,
     },
     firstName: {
       type: String,
