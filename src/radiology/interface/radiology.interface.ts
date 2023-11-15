@@ -12,3 +12,9 @@ export interface Radiology {
   desc: string;
   comment: string;
 }
+
+export interface SpecialistRadiology {
+  id?: string;
+  status: Status;
+  comment: string;
+}

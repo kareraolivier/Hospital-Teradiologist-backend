@@ -6,7 +6,10 @@ import {
 import { InjectModel } from "@nestjs/mongoose";
 import { UsersService } from "src/users/users.service";
 import { Model } from "mongoose";
-import { Radiology } from "./interface/radiology.interface";
+import {
+  Radiology,
+  SpecialistRadiology,
+} from "./interface/radiology.interface";
 
 @Injectable()
 export class RadiologyService {
@@ -42,5 +45,17 @@ export class RadiologyService {
     return await this.radiologyModel.findByIdAndUpdate(id, radiology, {
       new: true,
     });
+  }
+  async specialistUpdate(
+    id: string,
+    specialistRadiology: SpecialistRadiology,
+  ): Promise<Radiology> {
+    return await this.radiologyModel.findByIdAndUpdate(
+      id,
+      specialistRadiology,
+      {
+        new: true,
+      },
+    );
   }
 }

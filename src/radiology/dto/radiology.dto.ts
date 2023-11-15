@@ -24,10 +24,24 @@ export class radiologyDto {
   readonly image: string;
   @IsString()
   readonly desc: string;
+  @IsString()
+  @IsOptional()
   readonly comment: string;
   @IsEnum(Status, {
     message: "Invalid status value. Please select a valid status.",
   })
   @IsOptional()
   readonly status: Status;
+}
+
+export class specialistRadiologyDto {
+  @IsEnum(Status, {
+    message: "Invalid status value. Please select a valid status.",
+  })
+  @IsOptional()
+  readonly status: Status;
+
+  @IsString()
+  @IsOptional()
+  readonly comment: string;
 }
