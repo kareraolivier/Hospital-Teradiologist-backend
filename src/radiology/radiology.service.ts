@@ -25,7 +25,6 @@ export class RadiologyService {
   async create(radiology: Radiology): Promise<Radiology> {
     try {
       const { email } = radiology;
-
       const patiantEmail = await this.radiologyModel.findOne({ email });
       if (patiantEmail) {
         throw new NotAcceptableException("Patiant exist");
