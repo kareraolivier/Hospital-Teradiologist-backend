@@ -21,18 +21,23 @@ export class RadiologyService {
   async findAll(): Promise<Radiology[]> {
     return await this.radiologyModel.find();
   }
+
   async create(radiology: Radiology): Promise<Radiology> {
-    const { email, userId } = radiology;
-    await this.usersService.getUserById(userId);
+    try {
+      const { email } = radiology;
 
-    const patiantEmail = await this.radiologyModel.findOne({ email });
-    if (patiantEmail) {
-      throw new NotAcceptableException("Patiant exist");
+      const patiantEmail = await this.radiologyModel.findOne({ email });
+      if (patiantEmail) {
+        throw new NotAcceptableException("Patiant exist");
+      }
+
+      const radiologys = await this.radiologyModel.create(radiology);
+      return radiologys.save();
+    } catch (error) {
+      throw new NotAcceptableException("Failed to add new patient");
     }
-
-    const radiologys = await this.radiologyModel.create(radiology);
-    return radiologys.save();
   }
+
   async findOne(id: string): Promise<Radiology> {
     const radiology = await this.radiologyModel.findOne({ _id: id });
     if (!radiology) throw new NotFoundException("Patiant not found");
@@ -50,12 +55,16 @@ export class RadiologyService {
     id: string,
     specialistRadiology: SpecialistRadiology,
   ): Promise<Radiology> {
-    return await this.radiologyModel.findByIdAndUpdate(
-      id,
-      specialistRadiology,
-      {
-        new: true,
-      },
-    );
+    try {
+      return await this.radiologyModel.findByIdAndUpdate(
+        id,
+        specialistRadiology,
+        {
+          new: true,
+        },
+      );
+    } catch (error) {
+      throw new NotFoundException("Patiant not updated");
+    }
   }
 }

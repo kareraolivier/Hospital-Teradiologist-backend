@@ -4,6 +4,7 @@ import {
   IsOptional,
   IsLowercase,
   IsString,
+  IsArray,
 } from "class-validator";
 import { Status } from "src/auth/enums/enum";
 export class radiologyDto {

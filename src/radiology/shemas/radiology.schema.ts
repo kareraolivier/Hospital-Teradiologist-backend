@@ -37,7 +37,7 @@ export const RadiologySchema = new mongoose.Schema(
       required: true,
     },
     image: {
-      type: String,
+      type: [String],
       required: false,
     },
     desc: {
