@@ -27,6 +27,7 @@ export class AuthService {
         role: loginUser.role,
       }),
       user: {
+        id: loginUser.id,
         email: loginUser.email,
         names: `${loginUser.firstName} ${loginUser.lastName}`,
         role: loginUser.role,
