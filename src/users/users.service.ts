@@ -32,7 +32,7 @@ export class UsersService {
 
   async getUserById(id: string): Promise<User> {
     try {
-      return await this.userModel.findOne({ _id: id });
+      return await this.userModel.findOne({ _id: id }, { password: 0 }).exec();
     } catch (error) {
       throw new InternalServerErrorException(
         "An error occurred the user does not exist",
