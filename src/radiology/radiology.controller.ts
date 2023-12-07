@@ -7,19 +7,23 @@ import {
   Patch,
   Param,
   Req,
+  Query,
 } from "@nestjs/common";
 import { Radiology } from "./interface/radiology.interface";
 import { RadiologyService } from "./radiology.service";
 import { radiologyDto, specialistRadiologyDto } from "./dto/radiology.dto";
 import { Roles } from "src/auth/role/roles.decorator";
 import { Role } from "src/auth/enums/enum";
+import { ApiBearerAuth } from "@nestjs/swagger";
+import { Query as ExpressQuery } from "express-serve-static-core";
 
+@ApiBearerAuth("JWT-auth")
 @Controller("radiology")
 export class RadiologyController {
   constructor(private readonly radiologyService: RadiologyService) {}
   @Get()
-  findAll(): Promise<Radiology[]> {
-    return this.radiologyService.findAll();
+  findAll(@Query() query: ExpressQuery): Promise<Radiology[]> {
+    return this.radiologyService.findAll(query);
   }
   @Post()
   @Roles(Role.Radiologist, Role.Admin)

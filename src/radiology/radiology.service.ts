@@ -4,22 +4,45 @@ import {
   NotFoundException,
 } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
-import { UsersService } from "src/users/users.service";
 import { Model } from "mongoose";
 import {
   Radiology,
   SpecialistRadiology,
 } from "./interface/radiology.interface";
+import { Query as ExpressQuery } from "express-serve-static-core";
 
 @Injectable()
 export class RadiologyService {
   constructor(
     @InjectModel("Radiology") private readonly radiologyModel: Model<Radiology>,
-    private usersService: UsersService,
   ) {}
 
-  async findAll(): Promise<Radiology[]> {
-    return await this.radiologyModel.find();
+  async findAll(query: ExpressQuery): Promise<Radiology[]> {
+    //Imprementation of pagination
+    const radPerPage = 10;
+    const currentPage = Number(query.page) || 1;
+    const nextPage = radPerPage * (currentPage - 1);
+
+    //Imprementation of search
+    const searchCondition: any = {};
+
+    if (query.keyword) {
+      const searchRegex = {
+        $regex: query.keyword,
+        $options: "i",
+      };
+
+      searchCondition.$or = [
+        { firstName: searchRegex },
+        { lastName: searchRegex },
+        { email: searchRegex },
+      ];
+    }
+    return await this.radiologyModel
+      .find(searchCondition)
+      .sort({ createdAt: -1 })
+      .limit(radPerPage)
+      .skip(nextPage);
   }
 
   async create(radiology: Radiology): Promise<Radiology> {
