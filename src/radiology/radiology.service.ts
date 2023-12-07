@@ -27,6 +27,7 @@ export class RadiologyService {
     const searchCondition: any = {};
 
     if (query.keyword) {
+      query.page = "1";
       const searchRegex = {
         $regex: query.keyword,
         $options: "i",
@@ -38,6 +39,7 @@ export class RadiologyService {
         { email: searchRegex },
       ];
     }
+
     return await this.radiologyModel
       .find(searchCondition)
       .sort({ createdAt: -1 })
