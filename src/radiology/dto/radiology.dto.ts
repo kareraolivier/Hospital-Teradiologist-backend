@@ -6,7 +6,7 @@ import {
   IsString,
   IsArray,
 } from "class-validator";
-import { Status } from "src/auth/enums/enum";
+import { Status } from "src/types/enum";
 export class radiologyDto {
   @IsString()
   readonly patientId: string;

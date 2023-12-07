@@ -1,4 +1,3 @@
-import { Role } from "src/auth/enums/enum";
 import {
   IsEmail,
   IsEnum,
@@ -7,6 +6,7 @@ import {
   Matches,
   MinLength,
 } from "class-validator";
+import { Role } from "../../types/enum";
 export class userDto {
   @IsString()
   readonly firstName: string;

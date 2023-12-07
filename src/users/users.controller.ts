@@ -10,7 +10,7 @@ import {
 import { User } from "./interface/user.interface";
 import { UsersService } from "./users.service";
 import { userDto } from "./dto/user.dto";
-import { Public } from "src/auth/auth.ispublic";
+import { Public } from "../auth/auth.ispublic";
 @Controller("users")
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}

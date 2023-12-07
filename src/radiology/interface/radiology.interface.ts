@@ -1,4 +1,4 @@
-import { Status } from "src/auth/enums/enum";
+import { Status } from "src/types/enum";
 export interface Radiology {
   id?: string;
   status: Status;

@@ -12,7 +12,7 @@ import { Radiology } from "./interface/radiology.interface";
 import { RadiologyService } from "./radiology.service";
 import { radiologyDto, specialistRadiologyDto } from "./dto/radiology.dto";
 import { Roles } from "src/auth/role/roles.decorator";
-import { Role } from "src/auth/enums/enum";
+import { Role } from "src/types/enum";
 
 @Controller("radiology")
 export class RadiologyController {
