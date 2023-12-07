@@ -11,10 +11,12 @@ import { User } from "./interface/user.interface";
 import { UsersService } from "./users.service";
 import { userDto } from "./dto/user.dto";
 import { Public } from "src/auth/auth.ispublic";
+import { ApiBearerAuth } from "@nestjs/swagger";
+
+@ApiBearerAuth("JWT-auth")
 @Controller("users")
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
-
   @Get()
   findAll(): Promise<User[]> {
     return this.usersService.findAll();
@@ -26,12 +28,12 @@ export class UsersController {
   }
 
   @Get(":id")
-  getUserById(@Param("id") id): Promise<User> {
+  getUserById(@Param("id") id: string): Promise<User> {
     return this.usersService.getUserById(id);
   }
 
   @Delete(":id")
-  delete(@Param("id") id): Promise<User> {
+  delete(@Param("id") id: string): Promise<User> {
     return this.usersService.delete(id);
   }
 
