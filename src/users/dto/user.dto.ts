@@ -9,6 +9,8 @@ import {
 } from "class-validator";
 export class userDto {
   @IsString()
+  readonly id: string;
+  @IsString()
   readonly firstName: string;
   @IsString()
   readonly lastName: string;

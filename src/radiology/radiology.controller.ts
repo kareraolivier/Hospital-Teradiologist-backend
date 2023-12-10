@@ -16,6 +16,7 @@ import { Roles } from "src/auth/role/roles.decorator";
 import { Role } from "src/auth/enums/enum";
 import { ApiBearerAuth } from "@nestjs/swagger";
 import { Query as ExpressQuery } from "express-serve-static-core";
+import { userDto } from "src/users/dto/user.dto";
 
 @ApiBearerAuth("JWT-auth")
 @Controller("radiology")
@@ -31,7 +32,8 @@ export class RadiologyController {
     @Body() radiologyDto: radiologyDto,
     @Req() req: any,
   ): Promise<Radiology> {
-    return this.radiologyService.create(radiologyDto);
+    const user = <userDto>req.user;
+    return this.radiologyService.create(user, radiologyDto);
   }
 
   @Get(":id")

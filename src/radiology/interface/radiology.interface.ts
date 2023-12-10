@@ -1,4 +1,4 @@
-import { Status } from "src/auth/enums/enum";
+import { Status } from "../../auth/enums/enum";
 export interface Radiology {
   id?: string;
   status: Status;
@@ -7,7 +7,7 @@ export interface Radiology {
   lastName: string;
   age: string;
   email: string;
-  userId: string;
+  userId?: string;
   image: string;
   desc: string;
   comment: string;
