@@ -48,18 +48,18 @@ export class RadiologyController {
 
   @Patch(":id")
   update(
-    @Body() updatetePatientDto: radiologyDto,
+    @Body() updatePatientDto: radiologyDto,
     @Param("id") id,
   ): Promise<Radiology> {
-    return this.radiologyService.update(id, updatetePatientDto);
+    return this.radiologyService.update(id, updatePatientDto);
   }
 
   @Patch("specialist/:id")
   @Roles(Role.Specialist, Role.Admin)
   specialistUpdate(
-    @Body() updatetePatientDto: specialistRadiologyDto,
+    @Body() updatePatientDto: specialistRadiologyDto,
     @Param("id") id,
   ): Promise<Radiology> {
-    return this.radiologyService.specialistUpdate(id, updatetePatientDto);
+    return this.radiologyService.specialistUpdate(id, updatePatientDto);
   }
 }
