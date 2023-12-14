@@ -10,6 +10,7 @@ import {
   SpecialistRadiology,
 } from "./interface/radiology.interface";
 import { Query as ExpressQuery } from "express-serve-static-core";
+import { userDto } from "src/users/dto/user.dto";
 
 @Injectable()
 export class RadiologyService {
@@ -47,15 +48,15 @@ export class RadiologyService {
       .skip(nextPage);
   }
 
-  async create(radiology: Radiology): Promise<Radiology> {
+  async create(user: userDto, radiology: Radiology): Promise<Radiology> {
     try {
       const { email } = radiology;
       const patiantEmail = await this.radiologyModel.findOne({ email });
       if (patiantEmail) {
         throw new NotAcceptableException("Patiant exist");
       }
-
-      const radiologys = await this.radiologyModel.create(radiology);
+      const createRadiology = { ...radiology, userId: user.id };
+      const radiologys = await this.radiologyModel.create(createRadiology);
       return radiologys.save();
     } catch (error) {
       throw new NotAcceptableException("Failed to add new patient");

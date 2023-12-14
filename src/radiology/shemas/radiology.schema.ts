@@ -1,5 +1,5 @@
 import * as mongoose from "mongoose";
-import { Status } from "src/auth/enums/enum";
+import { Status } from "../../auth/enums/enum";
 
 export const RadiologySchema = new mongoose.Schema(
   {

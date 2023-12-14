@@ -6,7 +6,7 @@ import {
   IsString,
   IsArray,
 } from "class-validator";
-import { Status } from "src/auth/enums/enum";
+import { Status } from "../../auth/enums/enum";
 export class radiologyDto {
   @IsString()
   readonly patientId: string;
@@ -19,8 +19,7 @@ export class radiologyDto {
   @IsEmail()
   @IsLowercase()
   readonly email: string;
-  @IsString()
-  readonly userId: string;
+
   @IsString()
   readonly image: string;
   @IsString()
