@@ -4,7 +4,6 @@ import {
   IsOptional,
   IsLowercase,
   IsString,
-  IsArray,
 } from "class-validator";
 import { Status } from "../../auth/enums/enum";
 export class radiologyDto {
@@ -44,4 +43,11 @@ export class specialistRadiologyDto {
   @IsString()
   @IsOptional()
   readonly comment: string;
+}
+
+export class patientCountDto {
+  all: number;
+  pending: number;
+  progress: number;
+  completed: number;
 }

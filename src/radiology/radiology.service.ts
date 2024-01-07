@@ -4,13 +4,15 @@ import {
   NotFoundException,
 } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
-import { Model } from "mongoose";
+import { Model, STATES } from "mongoose";
 import {
   Radiology,
   SpecialistRadiology,
+  patientCount,
 } from "./interface/radiology.interface";
 import { Query as ExpressQuery } from "express-serve-static-core";
 import { userDto } from "src/users/dto/user.dto";
+import { Status } from "src/auth/enums/enum";
 
 @Injectable()
 export class RadiologyService {
@@ -18,7 +20,9 @@ export class RadiologyService {
     @InjectModel("Radiology") private readonly radiologyModel: Model<Radiology>,
   ) {}
 
-  async findAll(query: ExpressQuery): Promise<Radiology[]> {
+  async findAll(
+    query: ExpressQuery,
+  ): Promise<{ data: Radiology[]; totalPages: number }> {
     //Imprementation of pagination
     const radPerPage = 10;
     const currentPage = Number(query.page) || 1;
@@ -41,11 +45,17 @@ export class RadiologyService {
       ];
     }
 
-    return await this.radiologyModel
+    const totalCount =
+      await this.radiologyModel.countDocuments(searchCondition);
+    const totalPages = Math.ceil(totalCount / radPerPage);
+
+    const data = await this.radiologyModel
       .find(searchCondition)
       .sort({ createdAt: -1 })
       .limit(radPerPage)
       .skip(nextPage);
+
+    return { data, totalPages };
   }
 
   async create(user: userDto, radiology: Radiology): Promise<Radiology> {
@@ -61,6 +71,21 @@ export class RadiologyService {
     } catch (error) {
       throw new NotAcceptableException("Failed to add new patient");
     }
+  }
+
+  async countAll(): Promise<patientCount> {
+    const radiology = await this.radiologyModel.find();
+    const all = radiology.length;
+    const pending = radiology.filter(
+      (el) => el.status === Status.Pending,
+    ).length;
+    const progress = radiology.filter(
+      (el) => el.status === Status.Inprogress,
+    ).length;
+    const completed = radiology.filter(
+      (el) => el.status === Status.Completed,
+    ).length;
+    return { all, pending, progress, completed };
   }
 
   async findOne(id: string): Promise<Radiology> {

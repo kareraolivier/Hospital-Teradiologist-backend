@@ -13,7 +13,9 @@ export class UsersService {
   constructor(@InjectModel("User") private readonly userModel: Model<User>) {}
 
   async findAll(): Promise<User[]> {
-    return await this.userModel.find({}, { password: 0 }).exec();
+    return await this.userModel
+      .find({}, { password: 0 })
+      .sort({ createdAt: -1 });
   }
   async registerUser(user: User): Promise<User> {
     const { email } = user;

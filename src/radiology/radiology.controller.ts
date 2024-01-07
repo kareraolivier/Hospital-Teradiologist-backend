@@ -11,7 +11,11 @@ import {
 } from "@nestjs/common";
 import { Radiology } from "./interface/radiology.interface";
 import { RadiologyService } from "./radiology.service";
-import { radiologyDto, specialistRadiologyDto } from "./dto/radiology.dto";
+import {
+  patientCountDto,
+  radiologyDto,
+  specialistRadiologyDto,
+} from "./dto/radiology.dto";
 import { Roles } from "src/auth/role/roles.decorator";
 import { Role } from "src/auth/enums/enum";
 import { ApiBearerAuth } from "@nestjs/swagger";
@@ -23,9 +27,18 @@ import { userDto } from "src/users/dto/user.dto";
 export class RadiologyController {
   constructor(private readonly radiologyService: RadiologyService) {}
   @Get()
-  findAll(@Query() query: ExpressQuery): Promise<Radiology[]> {
+  findAll(
+    @Query() query: ExpressQuery,
+  ): Promise<{ data: Radiology[]; totalPages: number }> {
     return this.radiologyService.findAll(query);
   }
+
+  @Get("count")
+  @Roles(Role.Radiologist, Role.Specialist, Role.Admin)
+  countAll(): Promise<patientCountDto> {
+    return this.radiologyService.countAll();
+  }
+
   @Post()
   @Roles(Role.Radiologist, Role.Admin)
   create(

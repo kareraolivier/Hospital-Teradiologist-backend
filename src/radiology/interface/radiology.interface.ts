@@ -18,3 +18,10 @@ export interface SpecialistRadiology {
   status: Status;
   comment: string;
 }
+
+export interface patientCount {
+  all: number;
+  pending: number;
+  progress: number;
+  completed: number;
+}
