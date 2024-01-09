@@ -3,12 +3,14 @@ import {
   IsEmail,
   IsEnum,
   IsLowercase,
+  IsOptional,
   IsString,
   Matches,
   MinLength,
 } from "class-validator";
 export class userDto {
   @IsString()
+  @IsOptional()
   readonly id: string;
   @IsString()
   readonly firstName: string;
