@@ -33,4 +33,6 @@ export class userDto {
     message: "Invalid role value. Please select a valid role.",
   })
   readonly role: Role;
+  IsBoll;
+  readonly isActive: boolean;
 }

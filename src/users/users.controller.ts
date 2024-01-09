@@ -17,6 +17,7 @@ import { ApiBearerAuth } from "@nestjs/swagger";
 @Controller("users")
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
+
   @Get()
   findAll(): Promise<User[]> {
     return this.usersService.findAll();
@@ -40,5 +41,10 @@ export class UsersController {
   @Patch(":id")
   update(@Body() updateteUserDto: userDto, @Param("id") id): Promise<User> {
     return this.usersService.update(id, updateteUserDto);
+  }
+
+  @Patch("/stop/:id")
+  stopUser(@Param("id") id: string): Promise<User> {
+    return this.usersService.stopUser(id);
   }
 }

@@ -41,11 +41,21 @@ export class UsersService {
       );
     }
   }
+
+  async stopUser(id: string): Promise<User> {
+    const existingUser = await this.userModel.findById(id);
+    if (!existingUser) throw new NotFoundException("user not found");
+    existingUser.isActive = !existingUser.isActive;
+    const updatedUser = await existingUser.save();
+    return updatedUser;
+  }
+
   async delete(id: string): Promise<User> {
     const userId = await this.userModel.findByIdAndRemove({ _id: id });
     if (!userId) throw new NotFoundException("user not found");
     return userId;
   }
+
   async update(id: string, user: User): Promise<User> {
     return await this.userModel.findByIdAndUpdate(id, user, { new: true });
   }

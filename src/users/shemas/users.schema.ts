@@ -25,6 +25,12 @@ export const UserSchema = new mongoose.Schema(
       enum: Role,
       required: true,
     },
+    isActive: {
+      type: Boolean,
+      required: true,
+      unique: true,
+      default: true,
+    },
   },
   { timestamps: true },
 );

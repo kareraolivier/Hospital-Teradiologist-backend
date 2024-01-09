@@ -13,7 +13,7 @@ export class AuthService {
   async signIn(login: Login): Promise<any> {
     const { email, password } = login;
     const loginUser = await this.usersService.getUserByEmail(email);
-    if (!loginUser) {
+    if (!loginUser || loginUser.isActive === false) {
       throw new UnauthorizedException("No user found");
     }
     const validPassword = await bycrpt.compare(password, loginUser.password);
