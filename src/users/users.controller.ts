@@ -17,7 +17,7 @@ import { ApiBearerAuth } from "@nestjs/swagger";
 @Controller("users")
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
-
+  @Public()
   @Get()
   findAll(): Promise<User[]> {
     return this.usersService.findAll();
