@@ -23,6 +23,11 @@ export class PatientController {
     return await this.patientService.getAllPatient();
   }
 
+  @Get(":id")
+  findOne(@Param("id") id): Promise<Patient> {
+    return this.patientService.findOne(id);
+  }
+
   @Post()
   async createPatient(@Body() patientDto: patientDto, @Req() req: any) {
     const patient = { ...patientDto, userId: req.user.id };
