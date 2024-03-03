@@ -7,14 +7,14 @@ import { UsersModule } from "./users/users.module";
 import { AuthModule } from "./auth/auth.module";
 import { RadiologyModule } from "./radiology/radiology.module";
 import { APP_PIPE } from "@nestjs/core";
-import { PatientModule } from './patient/patient.module';
+import { PatientModule } from "./patient/patient.module";
 @Module({
   imports: [
     UsersModule,
     AuthModule,
     RadiologyModule,
-    MongooseModule.forRoot(mongoUrl),
     PatientModule,
+    MongooseModule.forRoot(mongoUrl),
   ],
   controllers: [AppController],
   providers: [

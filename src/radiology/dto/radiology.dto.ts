@@ -8,9 +8,6 @@ import {
 import { Status } from "../../auth/enums/enum";
 export class radiologyDto {
   @IsString()
-  readonly patientId: string;
-
-  @IsString()
   readonly firstName: string;
 
   @IsString()
@@ -22,22 +19,6 @@ export class radiologyDto {
   @IsEmail()
   @IsLowercase()
   readonly email: string;
-
-  @IsString()
-  readonly image: string;
-
-  @IsString()
-  readonly desc: string;
-
-  @IsString()
-  @IsOptional()
-  readonly comment: string;
-
-  @IsEnum(Status, {
-    message: "Invalid status value. Please select a valid status.",
-  })
-  @IsOptional()
-  readonly status: Status;
 }
 
 export class specialistRadiologyDto {

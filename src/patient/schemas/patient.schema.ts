@@ -23,7 +23,7 @@ export const PatientSchema = new mongoose.Schema(
     },
 
     image: {
-      type: [String],
+      type: String,
       required: false,
     },
 

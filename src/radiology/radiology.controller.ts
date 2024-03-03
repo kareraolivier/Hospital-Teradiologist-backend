@@ -33,11 +33,11 @@ export class RadiologyController {
     return this.radiologyService.findAll(query);
   }
 
-  @Get("count")
-  @Roles(Role.Radiologist, Role.Specialist, Role.Admin)
-  countAll(): Promise<patientCountDto> {
-    return this.radiologyService.countAll();
-  }
+  // @Get("count")
+  // @Roles(Role.Radiologist, Role.Specialist, Role.Admin)
+  // countAll(): Promise<patientCountDto> {
+  //   return this.radiologyService.countAll();
+  // }
 
   @Post()
   @Roles(Role.Radiologist, Role.Admin)

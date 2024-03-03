@@ -2,6 +2,9 @@ import { IsEnum, IsOptional, IsString } from "class-validator";
 import { Status } from "../../auth/enums/enum";
 export class patientDto {
   @IsString()
+  readonly patientId: string;
+
+  @IsString()
   readonly image: string;
 
   @IsString()
@@ -14,5 +17,5 @@ export class patientDto {
   @IsEnum(Status, {
     message: "Invalid status value. Please select a valid status.",
   })
-  readonly status: Status;
+  readonly status: Status = Status.Pending;
 }
