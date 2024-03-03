@@ -6,6 +6,7 @@ import {
   Delete,
   Body,
   Req,
+  Param,
 } from "@nestjs/common";
 import { PatientService } from "./patient.service";
 import { ApiBearerAuth } from "@nestjs/swagger";
@@ -26,5 +27,9 @@ export class PatientController {
   async createPatient(@Body() patientDto: patientDto, @Req() req: any) {
     const patient = { ...patientDto, userId: req.user.id };
     return this.patientService.createPatient(patient);
+  }
+  @Delete(":id")
+  delete(@Param("id") id): Promise<Patient> {
+    return this.patientService.delete(id);
   }
 }

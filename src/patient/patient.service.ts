@@ -17,4 +17,7 @@ export class PatientService {
     const newPatient = new this.patientModel(patient);
     return newPatient.save();
   }
+  async delete(id: string): Promise<Patient> {
+    return await this.patientModel.findByIdAndRemove({ _id: id });
+  }
 }
