@@ -1,8 +1,4 @@
-import {
-  Injectable,
-  NotAcceptableException,
-  NotFoundException,
-} from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model, STATES } from "mongoose";
 import {
@@ -13,6 +9,7 @@ import {
 import { Query as ExpressQuery } from "express-serve-static-core";
 import { userDto } from "src/users/dto/user.dto";
 import { Status } from "src/auth/enums/enum";
+import { PatientAlreadyExistsException } from "src/patient/patient-exist.exception";
 
 @Injectable()
 export class RadiologyService {
@@ -59,36 +56,17 @@ export class RadiologyService {
   }
 
   async create(user: userDto, radiology: Radiology): Promise<Radiology> {
-    try {
-      const { email } = radiology;
-      const patiantEmail = await this.radiologyModel.findOne({ email });
-      if (patiantEmail) {
-        throw new NotAcceptableException("Patiant exist");
-      }
-      const createRadiology = { ...radiology, userId: user.id };
-      const radiologys = await this.radiologyModel.create(createRadiology);
-      return radiologys.save();
-    } catch (error) {
-      throw new NotAcceptableException("Failed to add new patient");
+    const { email } = radiology;
+    const patiantEmail = await this.radiologyModel.findOne({ email });
+    if (patiantEmail) {
+      throw new PatientAlreadyExistsException();
     }
+    const createRadiology = { ...radiology, userId: user.id };
+    const radiologys = await this.radiologyModel.create(createRadiology);
+    return radiologys.save();
   }
 
-  async countAll(): Promise<patientCount> {
-    const radiology = await this.radiologyModel.find();
-    const all = radiology.length;
-    const pending = radiology.filter(
-      (el) => el.status === Status.Pending,
-    ).length;
-    const progress = radiology.filter(
-      (el) => el.status === Status.Inprogress,
-    ).length;
-    const completed = radiology.filter(
-      (el) => el.status === Status.Completed,
-    ).length;
-    return { all, pending, progress, completed };
-  }
-
-  async findOne(id: string): Promise<Radiology> {
+  public async findOne(id: string): Promise<Radiology> {
     const radiology = await this.radiologyModel.findOne({ _id: id });
     if (!radiology) throw new NotFoundException("Patiant not found");
     return radiology;
