@@ -6,6 +6,7 @@ import { ObjectId } from "mongoose";
 import { Query as ExpressQuery } from "express-serve-static-core";
 import {
   Radiology,
+  SpecialistRadiology,
   patientCount,
 } from "src/radiology/interface/radiology.interface";
 import { Status } from "src/auth/enums/enum";
@@ -82,5 +83,21 @@ export class PatientService {
       (el) => el.status === Status.Completed,
     ).length;
     return { all, pending, progress, completed };
+  }
+  async specialistUpdate(
+    id: string,
+    specialistRadiology: SpecialistRadiology,
+  ): Promise<Radiology> {
+    try {
+      return await this.patientModel.findByIdAndUpdate(
+        id,
+        specialistRadiology,
+        {
+          new: true,
+        },
+      );
+    } catch (error) {
+      throw new NotFoundException("Patiant not updated");
+    }
   }
 }

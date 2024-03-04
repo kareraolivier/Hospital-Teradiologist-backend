@@ -16,7 +16,10 @@ import { ApiBearerAuth } from "@nestjs/swagger";
 import { Patient } from "./interface/patient.interface";
 import { Query as ExpressQuery } from "express-serve-static-core";
 import { patientDto } from "./dto/patient.dto";
-import { patientCountDto } from "src/radiology/dto/radiology.dto";
+import {
+  patientCountDto,
+  specialistRadiologyDto,
+} from "src/radiology/dto/radiology.dto";
 import { Radiology } from "src/radiology/interface/radiology.interface";
 
 @ApiBearerAuth("JWT-auth")
@@ -54,5 +57,13 @@ export class PatientController {
   @Delete(":id")
   delete(@Param("id") id): Promise<Patient> {
     return this.patientService.delete(id);
+  }
+  @Patch("specialist/:id")
+  @Roles(Role.Specialist, Role.Admin)
+  specialistUpdate(
+    @Body() updatePatientDto: specialistRadiologyDto,
+    @Param("id") id,
+  ): Promise<Radiology> {
+    return this.patientService.specialistUpdate(id, updatePatientDto);
   }
 }
