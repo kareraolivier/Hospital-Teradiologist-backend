@@ -7,14 +7,17 @@ import {
   Body,
   Req,
   Param,
+  Query,
 } from "@nestjs/common";
 import { Roles } from "src/auth/role/roles.decorator";
 import { Role } from "src/auth/enums/enum";
 import { PatientService } from "./patient.service";
 import { ApiBearerAuth } from "@nestjs/swagger";
 import { Patient } from "./interface/patient.interface";
+import { Query as ExpressQuery } from "express-serve-static-core";
 import { patientDto } from "./dto/patient.dto";
 import { patientCountDto } from "src/radiology/dto/radiology.dto";
+import { Radiology } from "src/radiology/interface/radiology.interface";
 
 @ApiBearerAuth("JWT-auth")
 @Controller("patient")
@@ -27,13 +30,18 @@ export class PatientController {
     return this.patientService.countAll();
   }
   @Get("all/:patientId")
-  async findAll(@Param("patientId") patientId): Promise<Patient[]> {
-    return await this.patientService.getAllPatient(patientId);
+  async findAll(
+    @Param("patientId") patientId,
+    @Query() query: ExpressQuery,
+  ): Promise<{ data: Patient[]; totalPages: number }> {
+    return await this.patientService.getAllPatient(patientId, query);
   }
 
   @Get(":id")
-  findOne(@Param("id") id): Promise<Patient> {
-    return this.patientService.findOne(id);
+  async findOne(
+    @Param("id") id,
+  ): Promise<{ radiology: Radiology; patient: Patient }> {
+    return await this.patientService.findOne(id);
   }
 
   @Post()

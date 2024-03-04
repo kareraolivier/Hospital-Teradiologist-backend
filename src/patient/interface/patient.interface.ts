@@ -5,4 +5,6 @@ export interface Patient {
   desc: string;
   comment: string;
   status: Status;
+  userId?: string;
+  patientId?: string;
 }

@@ -66,22 +66,7 @@ export class RadiologyService {
     return radiologys.save();
   }
 
-  // async countAll(): Promise<patientCount> {
-  //   const radiology = await this.radiologyModel.find();
-  //   const all = radiology.length;
-  //   const pending = radiology.filter(
-  //     (el) => el.status === Status.Pending,
-  //   ).length;
-  //   const progress = radiology.filter(
-  //     (el) => el.status === Status.Inprogress,
-  //   ).length;
-  //   const completed = radiology.filter(
-  //     (el) => el.status === Status.Completed,
-  //   ).length;
-  //   return { all, pending, progress, completed };
-  // }
-
-  async findOne(id: string): Promise<Radiology> {
+  public async findOne(id: string): Promise<Radiology> {
     const radiology = await this.radiologyModel.findOne({ _id: id });
     if (!radiology) throw new NotFoundException("Patiant not found");
     return radiology;
