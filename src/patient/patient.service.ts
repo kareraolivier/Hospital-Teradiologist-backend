@@ -73,7 +73,7 @@ export class PatientService {
 
   async countAll(): Promise<patientCount> {
     const patient = await this.patientModel.find();
-    console.log(patient);
+
     const all = patient.length;
     const pending = patient.filter((el) => el.status === Status.Pending).length;
     const progress = patient.filter(
