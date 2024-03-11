@@ -15,11 +15,8 @@ import { PatientService } from "./patient.service";
 import { ApiBearerAuth } from "@nestjs/swagger";
 import { Patient } from "./interface/patient.interface";
 import { Query as ExpressQuery } from "express-serve-static-core";
-import { patientDto } from "./dto/patient.dto";
-import {
-  patientCountDto,
-  specialistRadiologyDto,
-} from "src/radiology/dto/radiology.dto";
+import { patientDto, updatePatientDto } from "./dto/patient.dto";
+import { patientCountDto } from "src/radiology/dto/radiology.dto";
 import { Radiology } from "src/radiology/interface/radiology.interface";
 
 @ApiBearerAuth("JWT-auth")
@@ -50,7 +47,11 @@ export class PatientController {
   @Post()
   @Roles(Role.Radiologist, Role.Admin)
   async createPatient(@Body() patientDto: patientDto, @Req() req: any) {
-    const patient = { ...patientDto, userId: req.user.id };
+    const patient = {
+      ...patientDto,
+      userId: req.user.id,
+      userName: req.user.name,
+    };
     return this.patientService.createPatient(patient);
   }
 
@@ -61,9 +62,15 @@ export class PatientController {
   @Patch("specialist/:id")
   @Roles(Role.Specialist, Role.Admin)
   specialistUpdate(
-    @Body() updatePatientDto: specialistRadiologyDto,
+    @Body() updatePatientDto: updatePatientDto,
     @Param("id") id,
-  ): Promise<Radiology> {
-    return this.patientService.specialistUpdate(id, updatePatientDto);
+    @Req() req: any,
+  ): Promise<Patient> {
+    const patient = {
+      ...updatePatientDto,
+      specialistId: req.user.id,
+      specialistName: req.user.name,
+    };
+    return this.patientService.specialistUpdate(id, patient);
   }
 }

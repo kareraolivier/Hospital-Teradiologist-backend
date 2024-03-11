@@ -8,3 +8,7 @@ export interface User {
   role: Role;
   isActive: boolean;
 }
+
+export interface IAllUser extends User {
+  patientCount: number;
+}

@@ -11,11 +11,7 @@ import {
 } from "@nestjs/common";
 import { Radiology } from "./interface/radiology.interface";
 import { RadiologyService } from "./radiology.service";
-import {
-  patientCountDto,
-  radiologyDto,
-  specialistRadiologyDto,
-} from "./dto/radiology.dto";
+import { radiologyDto } from "./dto/radiology.dto";
 import { Roles } from "src/auth/role/roles.decorator";
 import { Role } from "src/auth/enums/enum";
 import { ApiBearerAuth } from "@nestjs/swagger";
@@ -59,14 +55,5 @@ export class RadiologyController {
     @Param("id") id,
   ): Promise<Radiology> {
     return this.radiologyService.update(id, updatePatientDto);
-  }
-
-  @Patch("specialist/:id")
-  @Roles(Role.Specialist, Role.Admin)
-  specialistUpdate(
-    @Body() updatePatientDto: specialistRadiologyDto,
-    @Param("id") id,
-  ): Promise<Radiology> {
-    return this.radiologyService.specialistUpdate(id, updatePatientDto);
   }
 }

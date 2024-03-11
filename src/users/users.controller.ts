@@ -7,7 +7,7 @@ import {
   Patch,
   Post,
 } from "@nestjs/common";
-import { User } from "./interface/user.interface";
+import { User, IAllUser } from "./interface/user.interface";
 import { UsersService } from "./users.service";
 import { userDto } from "./dto/user.dto";
 import { Public } from "src/auth/auth.ispublic";
@@ -19,7 +19,7 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
   @Public()
   @Get()
-  findAll(): Promise<User[]> {
+  findAll(): Promise<IAllUser[]> {
     return this.usersService.findAll();
   }
   @Public()

@@ -12,6 +12,8 @@ export interface SpecialistRadiology {
   id?: string;
   status: Status;
   comment: string;
+  specialistId?: string;
+  specialistName?: string;
 }
 
 export interface patientCount {

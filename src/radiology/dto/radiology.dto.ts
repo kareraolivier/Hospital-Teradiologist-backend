@@ -1,10 +1,4 @@
-import {
-  IsEmail,
-  IsEnum,
-  IsOptional,
-  IsLowercase,
-  IsString,
-} from "class-validator";
+import { IsEmail, IsLowercase, IsString } from "class-validator";
 import { Status } from "../../auth/enums/enum";
 export class radiologyDto {
   @IsString()
@@ -19,18 +13,6 @@ export class radiologyDto {
   @IsEmail()
   @IsLowercase()
   readonly email: string;
-}
-
-export class specialistRadiologyDto {
-  @IsEnum(Status, {
-    message: "Invalid status value. Please select a valid status.",
-  })
-  @IsOptional()
-  readonly status: Status;
-
-  @IsString()
-  @IsOptional()
-  readonly comment: string;
 }
 
 export class patientCountDto {

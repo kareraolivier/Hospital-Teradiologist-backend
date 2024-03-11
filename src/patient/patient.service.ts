@@ -11,9 +11,7 @@ import {
 } from "src/radiology/interface/radiology.interface";
 import { Status } from "src/auth/enums/enum";
 import { RadiologyService } from "src/radiology/radiology.service";
-import { userDto } from "src/users/dto/user.dto";
-import { patientDto } from "./dto/patient.dto";
-import { radiologyDto } from "src/radiology/dto/radiology.dto";
+import { promises } from "dns";
 
 @Injectable()
 export class PatientService {
@@ -21,7 +19,11 @@ export class PatientService {
     @InjectModel("Patient") private readonly patientModel: Model<Patient>,
     private readonly radiologyService: RadiologyService,
   ) {}
-
+  async findAllById(id: string): Promise<Patient[]> {
+    return this.patientModel.find({
+      $or: [{ userId: id }, { specialistId: id }],
+    });
+  }
   async getAllPatient(
     patientId: string,
     query: ExpressQuery,
@@ -87,8 +89,9 @@ export class PatientService {
   async specialistUpdate(
     id: string,
     specialistRadiology: SpecialistRadiology,
-  ): Promise<Radiology> {
+  ): Promise<Patient> {
     try {
+      console.log(specialistRadiology);
       return await this.patientModel.findByIdAndUpdate(
         id,
         specialistRadiology,

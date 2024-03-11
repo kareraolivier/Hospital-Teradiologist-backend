@@ -21,6 +21,21 @@ export const PatientSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
+    userName: {
+      type: String,
+      required: false,
+    },
+
+    specialistId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: false,
+    },
+
+    specialistName: {
+      type: String,
+      required: false,
+    },
 
     image: {
       type: String,
