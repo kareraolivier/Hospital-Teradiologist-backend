@@ -5,17 +5,33 @@ import {
   NotFoundException,
 } from "@nestjs/common";
 import { Model } from "mongoose";
-import { User } from "./interface/user.interface";
+import { User, IAllUser } from "./interface/user.interface";
 import { InjectModel } from "@nestjs/mongoose";
 import * as bcrypt from "bcrypt";
+import { PatientService } from "src/patient/patient.service";
 @Injectable()
 export class UsersService {
-  constructor(@InjectModel("User") private readonly userModel: Model<User>) {}
+  constructor(
+    @InjectModel("User") private readonly userModel: Model<User>,
+    private readonly patientService: PatientService,
+  ) {}
 
-  async findAll(): Promise<User[]> {
-    return await this.userModel
+  async findAll(): Promise<IAllUser[]> {
+    const users = await this.userModel
       .find({}, { password: 0 })
       .sort({ createdAt: -1 });
+
+    const usersWithPatientCount: IAllUser[] = [];
+    for (const user of users) {
+      const allPatients = await this.patientService.findAllById(user.id);
+      const userWithPatientCount = {
+        ...user.toObject(),
+        patientCount: allPatients.length,
+      };
+      usersWithPatientCount.push(userWithPatientCount);
+    }
+
+    return usersWithPatientCount;
   }
   async registerUser(user: User): Promise<User> {
     const { email } = user;
