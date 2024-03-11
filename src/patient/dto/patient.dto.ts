@@ -11,6 +11,7 @@ export class patientDto {
   readonly desc: string;
 
   @IsString()
+  @IsOptional()
   readonly userName: string;
 
   @IsString()

@@ -29,7 +29,7 @@ export const PatientSchema = new mongoose.Schema(
     specialistId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      required: true,
+      required: false,
     },
 
     specialistName: {
