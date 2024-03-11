@@ -79,20 +79,4 @@ export class RadiologyService {
       new: true,
     });
   }
-  async specialistUpdate(
-    id: string,
-    specialistRadiology: SpecialistRadiology,
-  ): Promise<Radiology> {
-    try {
-      return await this.radiologyModel.findByIdAndUpdate(
-        id,
-        specialistRadiology,
-        {
-          new: true,
-        },
-      );
-    } catch (error) {
-      throw new NotFoundException("Patiant not updated");
-    }
-  }
 }

@@ -87,8 +87,9 @@ export class PatientService {
   async specialistUpdate(
     id: string,
     specialistRadiology: SpecialistRadiology,
-  ): Promise<Radiology> {
+  ): Promise<Patient> {
     try {
+      console.log(specialistRadiology);
       return await this.patientModel.findByIdAndUpdate(
         id,
         specialistRadiology,
