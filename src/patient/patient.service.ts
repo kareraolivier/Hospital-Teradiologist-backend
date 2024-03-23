@@ -11,7 +11,6 @@ import {
 } from "src/radiology/interface/radiology.interface";
 import { Status } from "src/auth/enums/enum";
 import { RadiologyService } from "src/radiology/radiology.service";
-import { promises } from "dns";
 
 @Injectable()
 export class PatientService {
@@ -19,11 +18,13 @@ export class PatientService {
     @InjectModel("Patient") private readonly patientModel: Model<Patient>,
     private readonly radiologyService: RadiologyService,
   ) {}
+
   async findAllById(id: string): Promise<Patient[]> {
     return this.patientModel.find({
       $or: [{ userId: id }, { specialistId: id }],
     });
   }
+
   async getAllPatient(
     patientId: string,
     query: ExpressQuery,
@@ -56,6 +57,7 @@ export class PatientService {
 
     return { data, totalPages };
   }
+
   async findOne(
     id: string,
   ): Promise<{ radiology: Radiology; patient: Patient }> {
@@ -65,10 +67,12 @@ export class PatientService {
     const radiology = await this.radiologyService.findOne(patientId);
     return { radiology, patient };
   }
+
   async createPatient(patient: Patient): Promise<Patient> {
     const newPatient = new this.patientModel(patient);
     return newPatient.save();
   }
+
   async delete(id: string): Promise<Patient> {
     return await this.patientModel.findByIdAndRemove({ _id: id });
   }
@@ -86,6 +90,7 @@ export class PatientService {
     ).length;
     return { all, pending, progress, completed };
   }
+
   async specialistUpdate(
     id: string,
     specialistRadiology: SpecialistRadiology,
