@@ -1,26 +1,33 @@
-import { Injectable } from '@nestjs/common';
-import { CreateLoginAttemptDto } from './dto/create-login-attempt.dto';
-import { UpdateLoginAttemptDto } from './dto/update-login-attempt.dto';
+import { Injectable } from "@nestjs/common";
+import { InjectModel } from "@nestjs/mongoose";
+import { Model } from "mongoose";
+import { LoginAttempt } from "./interface/login-attempt.interface";
+import { CreateLoginAttemptDto } from "./dto/create-login-attempt.dto";
 
 @Injectable()
 export class LoginAttemptsService {
-  create(createLoginAttemptDto: CreateLoginAttemptDto) {
-    return 'This action adds a new loginAttempt';
+  constructor(
+    @InjectModel("LoginAttempt")
+    private readonly loginAttemptModel: Model<LoginAttempt>,
+  ) {}
+  async create(
+    createLoginAttemptDto: CreateLoginAttemptDto,
+  ): Promise<LoginAttempt> {
+    const createdLoginAttempt = new this.loginAttemptModel(
+      createLoginAttemptDto,
+    );
+    return await createdLoginAttempt.save();
   }
 
-  findAll() {
-    return `This action returns all loginAttempts`;
+  async findAll(): Promise<LoginAttempt[]> {
+    return await this.loginAttemptModel.find().exec();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} loginAttempt`;
+  async findOne(id: string): Promise<LoginAttempt> {
+    return await this.loginAttemptModel.findById(id).exec();
   }
 
-  update(id: number, updateLoginAttemptDto: UpdateLoginAttemptDto) {
-    return `This action updates a #${id} loginAttempt`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} loginAttempt`;
+  async remove(id: string): Promise<LoginAttempt> {
+    return await this.loginAttemptModel.findByIdAndRemove(id).exec();
   }
 }

@@ -15,5 +15,3 @@ export const loginAttemptSchema = new mongoose.Schema(
   },
   { timestamps: true },
 );
-
-module.exports = mongoose.model("LoginAttempt", loginAttemptSchema);

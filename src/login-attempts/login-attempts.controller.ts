@@ -1,9 +1,9 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { LoginAttemptsService } from './login-attempts.service';
-import { CreateLoginAttemptDto } from './dto/create-login-attempt.dto';
-import { UpdateLoginAttemptDto } from './dto/update-login-attempt.dto';
-
-@Controller('login-attempts')
+import { Controller, Get, Post, Body, Param, Delete } from "@nestjs/common";
+import { LoginAttemptsService } from "./login-attempts.service";
+import { CreateLoginAttemptDto } from "./dto/create-login-attempt.dto";
+import { Public } from "src/auth/auth.ispublic";
+@Public()
+@Controller("login-attempts")
 export class LoginAttemptsController {
   constructor(private readonly loginAttemptsService: LoginAttemptsService) {}
 
@@ -17,18 +17,13 @@ export class LoginAttemptsController {
     return this.loginAttemptsService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.loginAttemptsService.findOne(+id);
+  @Get(":id")
+  findOne(@Param("id") id: string) {
+    return this.loginAttemptsService.findOne(id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateLoginAttemptDto: UpdateLoginAttemptDto) {
-    return this.loginAttemptsService.update(+id, updateLoginAttemptDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.loginAttemptsService.remove(+id);
+  @Delete(":id")
+  remove(@Param("id") id: string) {
+    return this.loginAttemptsService.remove(id);
   }
 }

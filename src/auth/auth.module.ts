@@ -1,4 +1,4 @@
-import { Module } from "@nestjs/common";
+import { Module, forwardRef } from "@nestjs/common";
 import { AuthController } from "./auth.controller";
 import { PassportModule } from "@nestjs/passport";
 import { AuthService } from "./auth.service";
@@ -9,6 +9,9 @@ import { jwtConstants } from "./auth.constants";
 import { APP_GUARD } from "@nestjs/core";
 import { AuthGuard } from "./auth.guard";
 import { RolesGuard } from "./role/roles.guard";
+import { LoginAttemptsModule } from "src/login-attempts/login-attempts.module";
+import { MongooseModule } from "@nestjs/mongoose";
+import { loginAttemptSchema } from "src/login-attempts/schemas/login-attempt.schema";
 
 @Module({
   imports: [
@@ -19,6 +22,10 @@ import { RolesGuard } from "./role/roles.guard";
       secret: jwtConstants.secret,
       signOptions: { expiresIn: "6h" },
     }),
+    MongooseModule.forFeature([
+      { name: "LoginAttempt", schema: loginAttemptSchema },
+    ]),
+    forwardRef(() => LoginAttemptsModule),
   ],
   controllers: [AuthController],
   providers: [
