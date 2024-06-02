@@ -1,8 +1,9 @@
 import { Controller, Get, Post, Body, Param, Delete } from "@nestjs/common";
 import { LoginAttemptsService } from "./login-attempts.service";
 import { CreateLoginAttemptDto } from "./dto/create-login-attempt.dto";
-import { Public } from "src/auth/auth.ispublic";
-@Public()
+import { Role } from "src/auth/enums/enum";
+import { Roles } from "src/auth/role/roles.decorator";
+@Roles(Role.Admin)
 @Controller("login-attempts")
 export class LoginAttemptsController {
   constructor(private readonly loginAttemptsService: LoginAttemptsService) {}

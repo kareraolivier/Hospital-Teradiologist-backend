@@ -20,7 +20,7 @@ export class AuthService {
 
     const ipAddress = request.ip;
 
-    const createLoginAttemptDto: LoginAttempt = {
+    const createLoginAttempt: LoginAttempt = {
       user: loginUser ? loginUser.id : null,
       ipAddress,
       successful: false,
@@ -30,11 +30,12 @@ export class AuthService {
     }
     const validPassword = await bycrpt.compare(password, loginUser.password);
     if (!validPassword) {
+      await this.loginAttemptsService.create(createLoginAttempt);
       throw new UnauthorizedException("Wrong password");
     }
 
-    createLoginAttemptDto.successful = true;
-    await this.loginAttemptsService.create(createLoginAttemptDto);
+    createLoginAttempt.successful = true;
+    await this.loginAttemptsService.create(createLoginAttempt);
 
     const user = {
       token: await this.jwtService.signAsync({
