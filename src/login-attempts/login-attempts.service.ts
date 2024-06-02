@@ -20,7 +20,7 @@ export class LoginAttemptsService {
   }
 
   async findAll(): Promise<LoginAttempt[]> {
-    return await this.loginAttemptModel.find().exec();
+    return await this.loginAttemptModel.find().sort({ createdAt: -1 }).exec();
   }
 
   async findOne(id: string): Promise<LoginAttempt> {
