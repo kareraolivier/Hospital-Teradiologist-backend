@@ -18,7 +18,13 @@ export class AuthService {
     const { email, password } = login;
     const loginUser = await this.usersService.getUserByEmail(email);
 
-    const ipAddress = request.ip;
+    const ipAddress =
+      request.headers["x-forwarded-for"] ||
+      request.headers["x-real-ip"] ||
+      request.headers["x-forwarded-for"] ||
+      request.socket.remoteAddress ||
+      request.ip ||
+      "";
 
     const createLoginAttempt: LoginAttempt = {
       user: loginUser ? loginUser.id : null,
